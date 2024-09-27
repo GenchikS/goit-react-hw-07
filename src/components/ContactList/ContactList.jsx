@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import css from "./ContactList.module.css";
-import { selectFilteredContacts, selectNameFilter } from "../../redux/contactSlice";
+import { selectFilteredContacts } from "../../redux/contactSlice";
 import Contact from "./Contact/Contact";
-// import { selectFiltered } from "../../redux/filtersSlice";
+import { selectNameFilter } from "../../redux/filtersSlice";
 
 export default function ContactList() {
   const contacts = useSelector(selectFilteredContacts);
+  // const selectNameFilter = useSelector(selectNameFilter);
   const filters = useSelector(selectNameFilter);
-
+  
   //  перевірка масиву стану
   // console.log("contacts", contacts);
   //  перевірка поверненого пошуку
@@ -28,7 +29,9 @@ export default function ContactList() {
           </li>
         ))}
       {filters &&
-        filters
+        contacts
+          .filter((contact) =>
+            contact.name.toLowerCase().includes(filters.toLowerCase()))
           .map((contact) => (
             <li className={css.listContactUser} key={contact.id}>
               {/* перевірка ітерації масиву */}
@@ -43,5 +46,10 @@ export default function ContactList() {
     </ul>
   );
 }
+
+
+
+
+
 
 

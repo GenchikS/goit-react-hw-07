@@ -35,20 +35,4 @@ export const fetchDeleteContact = createAsyncThunk(`contacts/deleteContact`, asy
     }
 }); 
 
-export const fetchFilters = createAsyncThunk(
-  `contacts/filtersContact`,
-  async (name, thunkAPI) => {
-    try {
-      const { data } = await axios.get(`/contacts`);
-      // console.log("fetchFilters", data);
-      // console.log("name", name);
-      return (data
-          .filter((contact) =>
-            contact.name.toLowerCase().includes(name.toLowerCase())))
-      } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-); 
-
 

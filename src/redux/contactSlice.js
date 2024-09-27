@@ -3,8 +3,7 @@ import {
   fetchAddContact,
   fetchContacts,
   fetchDeleteContact,
-  fetchFilters
-} from "./contactsOps";
+  } from "./contactsOps";
 
 
 const initialState = {
@@ -13,15 +12,12 @@ const initialState = {
     loading: false,
     error: null,
   },
-  filters: {
-    name: "",
-  },
 };
 
 export const selectFilteredContacts = (state) => state.contacts.items;
 export const selectLoading = (state) => state.contacts.loading;
 export const selectError = (state) => state.contacts.error;
-export const selectNameFilter = (state) => state.filters.name;
+
 
 
 
@@ -67,28 +63,5 @@ const contactsSlice = createSlice({
           })
 });
 
-const filtersSlice = createSlice({
-  name: `filters`,
-  initialState,
-  extraReducers: (bilder) =>
-    bilder
-      .addCase(fetchFilters.pending, (state) => {
-        //  payload не використовуємо (немає потреби)
-        (state.loading = true), (state.error = null);
-      })
-      .addCase(fetchFilters.fulfilled, (state, { payload }) => {
-        (state.loading = false), (state.items = payload);
-      })
-      .addCase(fetchFilters.rejected, (state, { payload }) => {
-        (state.loader = false), (state.error = payload), (state.items = []); //  скидання до початкового стану, коли сталася помилка.
-      }),
-});
-
 //  створення редусера contactsReducer
 export const contactsReducer = contactsSlice.reducer
-export const filtersReducer = filtersSlice.reducer
-
-
-// //  експорт селекторів створені вище
-// export const { fetchingInProgress, fetchingSuccess, fetchingError } =
-//   contactsSlice.actions;
