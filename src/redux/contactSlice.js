@@ -1,27 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchAddContact, fetchContacts, fetchDeleteContact } from "./contactsOps";
+import {
+  fetchAddContact,
+  fetchContacts,
+  fetchDeleteContact,
+  fetchFilters
+} from "./contactsOps";
 
 
-const initialisetion = {
+const initialState = {
   contacts: {
     items: [],
     loading: false,
-    error: null
+    error: null,
   },
   filters: {
-		name: ""
-	}
-}
+    name: "",
+  },
+};
 
-const selectFilteredContacts = (state) => state.contacts;
-
-
+export const selectFilteredContacts = (state) => state.contacts.items;
+export const selectLoading = (state) => state.contacts.loading;
+export const selectError = (state) => state.contacts.error;
+export const selectNameFilter = (state) => state.filters.name;
 
 
 
 const contactsSlice = createSlice({
   name: `contacts`,
-  initialisetion,
+  initialState,
   extraReducers: (bilder) =>
     bilder
       .addCase(fetchContacts.pending, state => {
@@ -40,7 +46,7 @@ const contactsSlice = createSlice({
         })
           .addCase(fetchAddContact.pending, state => {
               state.loading = true,
-              state.error = null      
+              state.error = null
           }).addCase(fetchAddContact.fulfilled, (state, { payload }) => {
               state.loading = false,
               state.items.push(payload) //  використання мутуючого методу (методом immer під капотом redux)
@@ -59,9 +65,30 @@ const contactsSlice = createSlice({
                   state.error = payload,
                   state.items = []
           })
-                
-            
+});
+
+const filtersSlice = createSlice({
+  name: `filters`,
+  initialState,
+  extraReducers: (bilder) =>
+    bilder
+      .addCase(fetchFilters.pending, (state) => {
+        //  payload не використовуємо (немає потреби)
+        (state.loading = true), (state.error = null);
+      })
+      .addCase(fetchFilters.fulfilled, (state, { payload }) => {
+        (state.loading = false), (state.items = payload);
+      })
+      .addCase(fetchFilters.rejected, (state, { payload }) => {
+        (state.loader = false), (state.error = payload), (state.items = []); //  скидання до початкового стану, коли сталася помилка.
+      }),
 });
 
 //  створення редусера contactsReducer
 export const contactsReducer = contactsSlice.reducer
+export const filtersReducer = filtersSlice.reducer
+
+
+// //  експорт селекторів створені вище
+// export const { fetchingInProgress, fetchingSuccess, fetchingError } =
+//   contactsSlice.actions;

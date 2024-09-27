@@ -1,0 +1,46 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    width: 220px;
+    height: 120px;
+    border: 2px solid #111111;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+
+}
+
+.containerList{
+    list-style-type: none;
+    padding: 0;
+}
+
+.textName{
+    font-weight: 400;
+    font-size: 18px;
+    color: #111;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+.textNumber{
+    font-weight: 400;
+    font-size: 18px;
+    color: #111;
+    text-align: left;
+}
+
+.buttomDelete{
+    width: 70px;
+    height: 35px;
+    border: 2px solid #111;
+    border-radius: 5px;
+    background-color: rgb(209, 227, 243);
+    margin-left: 16px;
+    padding: 0;
+}
+
+.buttomDelete:hover{
+    background-color: rgb(164, 156, 244);
+}
